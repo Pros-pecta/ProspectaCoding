@@ -51,5 +51,13 @@ public class UserServiceImpl implements UserService{
 	public Integer updateUser(User user) {
 		return userRepo.save(user).getId();
 	}
+	
+	
+	//checking email exist or not
+	@Override
+	public User getByEmail(String email) {
+		User findByEmail = userRepo.findByEmail(email);
+		return findByEmail;
+	}
 
 }

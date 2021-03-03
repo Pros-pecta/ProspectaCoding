@@ -1,7 +1,6 @@
 package com.ps.controller;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,10 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.ps.exception.UserNotFoundException;
 import com.ps.model.User;
-import com.ps.repo.UserRepository;
 import com.ps.service.UserService;
-
-import javassist.NotFoundException;
 
 @RestController
 @RequestMapping("/user")
@@ -56,32 +52,24 @@ public class UserController {
 	
 	
 	@PostMapping
-	public ResponseEntity<?> getUserInfo(@RequestBody(required = true) User user) {
+	public ResponseEntity<?> getUserInfo(@Valid @RequestBody(required = true) User user) {
 		System.out.println(user);
 		ResponseEntity<?> resp = null;
-	      
+		User email = userService.getByEmail(user.getEmail());
 	try {
-		if(user!=null && user.toString().isBlank()) {
-			Integer id=userService.SaveUser(user);
-			resp= new ResponseEntity<String>("saved with id:"+id,HttpStatus.OK);	
+		if(StringUtils.hasText(user.getEmail())) {
+			if(email==null) {
+				Integer id=userService.SaveUser(user);
+				resp= new ResponseEntity<String>("saved with id:"+id,HttpStatus.OK);	
+			}if(email!=null){
+				resp=new ResponseEntity<String>("User already Exist",HttpStatus.BAD_REQUEST);
+			}
 		}
 	} catch (Exception e) {
-	throw new UserNotFoundException("User Already save "+user.getFirstName());
+	throw new UserNotFoundException("Please check the request and payload and retry");
 	}
 	return resp;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	@GetMapping("/{id}")

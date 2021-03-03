@@ -15,5 +15,7 @@ public interface UserService {
 	boolean  isUserExist(Integer id); 
 	
 	public Integer updateUser(User user);
+	
+	public User getByEmail(String email);
 
 }

@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -26,14 +27,14 @@ public class UserExceptionHandler {
 		
 		
 		
-		@ExceptionHandler({
-			HttpMessageNotReadableException.class 
-			})
-		public ResponseEntity<ErrorType> handleAll(Exception ex) {
-		    return  new ResponseEntity<ErrorType>(
-		      new ErrorType("Please check the request and payload and retry From Exception Method"),HttpStatus.BAD_REQUEST);
-		}
-		
+			@ExceptionHandler({
+				HttpMessageNotReadableException.class 
+				})
+			public ResponseEntity<ErrorType> handleAll(Exception ex) {
+			    return  new ResponseEntity<ErrorType>(
+			      new ErrorType("Please check the request and payload and retry From Exception Method"),HttpStatus.BAD_REQUEST);
+			}
+			
 	
 		
 		
@@ -62,4 +63,20 @@ public class UserExceptionHandler {
 		    return  new ResponseEntity<ErrorType>(
 		      new ErrorType("Please contact with admin ! and try after some time"),HttpStatus.BAD_REQUEST);
 		}
+		
+		
+		
+		@ExceptionHandler({
+			MethodArgumentNotValidException.class
+			})
+		public ResponseEntity<ErrorType> NullData(Exception ex) {
+		    return  new ResponseEntity<ErrorType>(
+		      new ErrorType("Please contact with admin ! and try after some time"),HttpStatus.BAD_REQUEST);
+		}
+		
+		
+		
+		
+		
+		
 }
