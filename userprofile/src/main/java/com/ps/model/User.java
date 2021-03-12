@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
-@Table(name="User_Table")
+@Table(name="user")
 public class User {
 	
   
@@ -23,21 +23,17 @@ public class User {
 	private Integer id;
 	
 	@Column(name="firstName",nullable = false)
-	@NotEmpty(message="first Name will not be null")
+	@NotBlank(message="first Name will not be null")
 	private String firstName;
 	
 	@Column(name="lastName",nullable = false)
-	@NotEmpty(message="last Name will not be null")
-	@NotBlank
+	@NotBlank(message="last Name will not be null")
 	private String lastName;
 	
 	@Column(name="email",nullable = false,unique = true)
-	@NotEmpty(message="Email will not be null")
+	@NotBlank(message="Email will not be null")
 	private String email;
 	
-	@Column(name="mobileNumber",nullable = false)
-	@NotNull(message="mobile number will not be null")
-	private Long mobile;
 	
 	@Column(name="date_of_birth",nullable = false)
 	@NotNull(message="date  will not be null")
@@ -80,13 +76,6 @@ public class User {
 		this.email = email;
 	}
 
-	public Long getMobile() {
-		return mobile;
-	}
-
-	public void setMobile(Long mobile) {
-		this.mobile = mobile;
-	}
 
 	public Date getDob() {
 		return dob;

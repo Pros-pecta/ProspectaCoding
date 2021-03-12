@@ -2,6 +2,9 @@ package com.ps.controller;
 
 import javax.validation.Valid;
 
+import org.slf4j.ILoggerFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +25,8 @@ import com.ps.service.UserService;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+	
+	private static final Logger logger=LoggerFactory.getLogger(UserController.class);
 	
 	@Autowired
 	private UserService userService;
@@ -49,11 +54,9 @@ public class UserController {
 		}*/
 	
 	
-	
-	
 	@PostMapping
 	public ResponseEntity<?> getUserInfo(@Valid @RequestBody(required = true) User user) {
-		System.out.println(user);
+		logger.info("Enter into the User Post method"+user);
 		ResponseEntity<?> resp = null;
 		User email = userService.getByEmail(user.getEmail());
 	try {
