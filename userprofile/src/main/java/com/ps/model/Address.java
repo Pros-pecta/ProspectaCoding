@@ -36,7 +36,7 @@ public class Address {
 	
 	
 	@NotEmpty(message = "Address1 should not be null")
-	@Size(min=2,message="Name should have atleast 2 characters")
+	@Size(min=2,message="Address1 should have atleast 2 characters")
 	@Column(name="address_line1")
 	private String addressLine1;
 	
