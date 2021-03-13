@@ -41,7 +41,6 @@ public class UserController {
 		ResponseEntity<?> resp = null;
 		User email = userService.getUserByEmail(user.getEmail());
 		try {
-			if (StringUtils.hasText(user.getEmail())) {
 				if (email == null) {
 					Integer id = userService.saveUser(user);
 					resp = new ResponseEntity<String>("saved with id:" + id, HttpStatus.OK);
@@ -49,7 +48,6 @@ public class UserController {
 				if (email != null) {
 					resp = new ResponseEntity<String>("User already Exist", HttpStatus.BAD_REQUEST);
 				}
-			}
 		} catch (Exception e) {
 			throw new UserNotFoundException("Please check the request and payload and retry");
 		}
@@ -120,6 +118,7 @@ public class UserController {
 		return resp;
 
 	}
+	
 
 	@GetMapping
 	public ResponseEntity<?> getUsersAllData() {

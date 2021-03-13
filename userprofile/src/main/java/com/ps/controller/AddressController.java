@@ -54,7 +54,6 @@ public class AddressController {
 			else {
 				resp=new ResponseEntity<String>("Address not save try after sometiems",HttpStatus.BAD_REQUEST);
 			}
-			
 		} catch (Exception e) {
 			throw new UserNotFoundException("Please check the request and payload and retry");
 		}
