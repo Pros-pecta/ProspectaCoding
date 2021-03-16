@@ -38,7 +38,7 @@ public class User {
 	@Column(name="date_of_birth",nullable = false)
 	@NotNull(message="date  will not be null")
 	@JsonFormat(pattern="yyyy-MM-dd")
-    private Date dob;
+    private String dob;
 	
 	@Column(name="Address",nullable = false)
 	@NotEmpty(message="address number will not be null")
@@ -77,13 +77,6 @@ public class User {
 	}
 
 
-	public Date getDob() {
-		return dob;
-	}
-
-	public void setDob(Date dob) {
-		this.dob = dob;
-	}
 
 	public String getAddress() {
 		return address;
@@ -92,6 +85,22 @@ public class User {
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", dob="
+				+ dob + ", address=" + address + "]";
+	}
+
+	public String getDob() {
+		return dob;
+	}
+
+	public void setDob(String dob) {
+		this.dob = dob;
+	}
+	
+	
 	
 	
 	

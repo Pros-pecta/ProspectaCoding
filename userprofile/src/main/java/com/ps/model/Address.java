@@ -47,14 +47,14 @@ public class Address {
 	private String addressLine2;
 	
 	
-	@NotEmpty(message = "postalCode data should not be null")
 	@NotBlank(message = "postalCode data should not be null")
 	@Column(name="postal_code")
 	private String postalCode;
 	
-	@NotNull(message = "phone data should not be null")
+	@NotBlank(message = "phone data should not be null")
+	@Size(min=2,message="phone number should have atleast 2 characters")
 	@Column(name="phone_number")
-	private Long phoneNumber;
+	private String phoneNumber;
 	
 	
 	@NotEmpty(message = "country data should not be null")
@@ -141,13 +141,7 @@ public class Address {
 		this.address = address;
 	}
 
-	public Long getPhoneNumber() {
-		return phoneNumber;
-	}
-
-	public void setPhoneNumber(Long phoneNumber) {
-		this.phoneNumber = phoneNumber;
-	}
+	
 	
 	
 	
@@ -157,6 +151,14 @@ public class Address {
 		return "UserAddress [id=" + id + ", addressLine1=" + addressLine1 + ", addressLine2=" + addressLine2
 				+ ", postalCode=" + postalCode + ", phoneNumber=" + phoneNumber + ", country=" + country + ", city="
 				+ city + ", state=" + state + "]";
+	}
+
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 	
 	

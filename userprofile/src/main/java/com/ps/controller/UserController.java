@@ -21,7 +21,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ps.exception.UserNotFoundException;
+import com.ps.model.Address;
 import com.ps.model.User;
+import com.ps.service.AddressService;
 import com.ps.service.UserService;
 
 @RestController
@@ -32,8 +34,12 @@ public class UserController {
 
 	@Autowired
 	private UserService userService;
+	
+	
+	@Autowired
+	private AddressService addrService;
 
-	@PostMapping
+	@PostMapping /*(consumes = "application/json", produces = "application/json")*/
 	public ResponseEntity<?> createUser(@Valid @RequestBody(required = true) User user) {
 		
 		LOGGER.info("Enter into the User Post method" + user);
@@ -43,7 +49,7 @@ public class UserController {
 		try {
 				if (email == null) {
 					Integer id = userService.saveUser(user);
-					resp = new ResponseEntity<String>("saved with id:" + id, HttpStatus.OK);
+					resp = new ResponseEntity<User>(user, HttpStatus.CREATED);
 				}
 				if (email != null) {
 					resp = new ResponseEntity<String>("User already Exist", HttpStatus.BAD_REQUEST);
@@ -126,11 +132,11 @@ public class UserController {
 
 		try {
 			List<User> list = userService.getUsers();
-			if(list.toString()!=null) {
-				return new  ResponseEntity<List<User>>(list, HttpStatus.OK);
+			if(list.size() > 0  ) {
+				resp= new  ResponseEntity<List<User>>(list, HttpStatus.OK);
 			}
-			if(list==null || list.equals(null)) {
-			return new ResponseEntity<String>("Unable to fetch data", HttpStatus.OK);
+			else {
+			resp = new ResponseEntity<String>("Unable to fetch data",HttpStatus.INTERNAL_SERVER_ERROR);
 			}
 			
 		} catch (Exception e) {
@@ -139,5 +145,62 @@ public class UserController {
 		return resp;
 
 	}
+	
+	
+	
+	
+	
+	//Address Data is started after this =======================================
+	
+	
+	@GetMapping("/address")
+	public ResponseEntity<?> getAddress(){
+		ResponseEntity<?> resp=null;	
+		try {
+			List<Address> list = addrService.getAddreeses();
+			if(list!=null) {
+				resp=new ResponseEntity<List<Address>>(list,HttpStatus.OK);
+			}
+			else {
+				resp=new ResponseEntity<String>("Unable to fetch data",HttpStatus.INTERNAL_SERVER_ERROR);
+			}
+		} catch (Exception e) {
+			throw new UserNotFoundException("Pleace contact with Amin and Try later");
+		}
+		return resp;
+	}
+	
+	
+	
+	@PostMapping("/address")
+	public ResponseEntity<?> createAddress(@Valid @RequestBody Address address){
+		ResponseEntity<?> resp=null;
+		
+		try {
+			if(address!=null && !address.equals(null)) {
+				Integer userId = addrService.saveAddress(address);
+				resp=new ResponseEntity<String>("Address save with"+userId,HttpStatus.CREATED);
+			}
+			else {
+				resp=new ResponseEntity<String>("Address not save try after sometiems",HttpStatus.BAD_REQUEST);
+			}
+		} catch (Exception e) {
+			throw new UserNotFoundException("Please check the request and payload and retry");
+		}
+		return resp;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 
 }
